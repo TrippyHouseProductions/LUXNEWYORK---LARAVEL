@@ -1,61 +1,151 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<<<<<<< HEAD
+# LUXNEWYORK Ecommerce API Routes
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Guest (Public) APIs
 
-## About Laravel
+| Method | Endpoint              | Description                      |
+|--------|-----------------------|----------------------------------|
+| GET    | /api/products         | List all products                |
+| GET    | /api/products/{id}    | Get product details by ID        |
+| GET    | /api/categories       | List all categories              |
+| GET    | /api/categories/{id}  | Get category details by ID       |
+| POST   | /api/login            | User/admin login, returns token  |
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Customer APIs *(Requires Bearer token; user must be logged in)*
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Method | Endpoint               | Description                        |
+|--------|------------------------|------------------------------------|
+| GET    | /api/cart              | Get current user's cart            |
+| POST   | /api/cart              | Add item to cart                   |
+| DELETE | /api/cart/{itemId}     | Remove item from cart by item ID   |
+| DELETE | /api/cart              | Clear all items from cart          |
+| GET    | /api/wishlist          | Get current user's wishlist        |
+| POST   | /api/wishlist          | Add product to wishlist            |
+| DELETE | /api/wishlist/{itemId} | Remove item from wishlist by ID    |
+| GET    | /api/orders            | Get current user's order history   |
+| POST   | /api/orders            | Place new order (checkout)         |
+| POST   | /api/logout            | Logout (revoke token)              |
+| GET    | /api/user              | Get current authenticated user     |
+| GET    | /api/sanctum-test      | Sanctum test endpoint (auth check) |
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Admin APIs *(Requires Bearer token; user_type must be 'admin')*
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Products
+| Method | Endpoint                    | Description                          |
+|--------|-----------------------------|--------------------------------------|
+| GET    | /api/admin/products         | List all products (admin view)       |
+| GET    | /api/admin/products/{id}    | Get product details (admin)          |
+| POST   | /api/admin/products         | Create a new product                 |
+| PUT    | /api/admin/products/{id}    | Update a product by ID               |
+| DELETE | /api/admin/products/{id}    | Delete a product by ID               |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Categories
+| Method | Endpoint                     | Description                         |
+|--------|------------------------------|-------------------------------------|
+| GET    | /api/admin/categories        | List all categories (admin view)    |
+| GET    | /api/admin/categories/{id}   | Get category details (admin)        |
+| POST   | /api/admin/categories        | Create a new category               |
+| PUT    | /api/admin/categories/{id}   | Update a category by ID             |
+| DELETE | /api/admin/categories/{id}   | Delete a category by ID             |
 
-## Laravel Sponsors
+### Orders
+| Method | Endpoint                    | Description                            |
+|--------|-----------------------------|----------------------------------------|
+| GET    | /api/admin/orders           | List all orders                        |
+| POST   | /api/admin/orders/{id}      | Update order status (confirm/cancel)   |
+| DELETE | /api/admin/orders/{id}      | Delete an order                        |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Users
+| Method | Endpoint                    | Description                |
+|--------|-----------------------------|----------------------------|
+| GET    | /api/admin/users            | List all registered users  |
+| DELETE | /api/admin/users/{id}       | Delete a user by ID        |
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+> **Note:**  
+> - All `/api/admin/*` endpoints require authentication and admin privileges (`user_type = admin`).
+> - All `/api/*` endpoints (except guest/public) require a valid Bearer token.
+> - Example tokens are returned by `/api/login`.
 
-## Contributing
+---
+=======
+# LUXNEWYORK Ecommerce API Routes
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Guest (Public) APIs
 
-## Code of Conduct
+| Method | Endpoint              | Description                      |
+|--------|-----------------------|----------------------------------|
+| GET    | /api/products         | List all products                |
+| GET    | /api/products/{id}    | Get product details by ID        |
+| GET    | /api/categories       | List all categories              |
+| GET    | /api/categories/{id}  | Get category details by ID       |
+| POST   | /api/login            | User/admin login, returns token  |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## Customer APIs *(Requires Bearer token; user must be logged in)*
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Method | Endpoint               | Description                        |
+|--------|------------------------|------------------------------------|
+| GET    | /api/cart              | Get current user's cart            |
+| POST   | /api/cart              | Add item to cart                   |
+| DELETE | /api/cart/{itemId}     | Remove item from cart by item ID   |
+| DELETE | /api/cart              | Clear all items from cart          |
+| GET    | /api/wishlist          | Get current user's wishlist        |
+| POST   | /api/wishlist          | Add product to wishlist            |
+| DELETE | /api/wishlist/{itemId} | Remove item from wishlist by ID    |
+| GET    | /api/orders            | Get current user's order history   |
+| POST   | /api/orders            | Place new order (checkout)         |
+| POST   | /api/logout            | Logout (revoke token)              |
+| GET    | /api/user              | Get current authenticated user     |
+| GET    | /api/sanctum-test      | Sanctum test endpoint (auth check) |
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Admin APIs *(Requires Bearer token; user_type must be 'admin')*
+
+### Products
+| Method | Endpoint                    | Description                          |
+|--------|-----------------------------|--------------------------------------|
+| GET    | /api/admin/products         | List all products (admin view)       |
+| GET    | /api/admin/products/{id}    | Get product details (admin)          |
+| POST   | /api/admin/products         | Create a new product                 |
+| PUT    | /api/admin/products/{id}    | Update a product by ID               |
+| DELETE | /api/admin/products/{id}    | Delete a product by ID               |
+
+### Categories
+| Method | Endpoint                     | Description                         |
+|--------|------------------------------|-------------------------------------|
+| GET    | /api/admin/categories        | List all categories (admin view)    |
+| GET    | /api/admin/categories/{id}   | Get category details (admin)        |
+| POST   | /api/admin/categories        | Create a new category               |
+| PUT    | /api/admin/categories/{id}   | Update a category by ID             |
+| DELETE | /api/admin/categories/{id}   | Delete a category by ID             |
+
+### Orders
+| Method | Endpoint                    | Description                            |
+|--------|-----------------------------|----------------------------------------|
+| GET    | /api/admin/orders           | List all orders                        |
+| POST   | /api/admin/orders/{id}      | Update order status (confirm/cancel)   |
+| DELETE | /api/admin/orders/{id}      | Delete an order                        |
+
+### Users
+| Method | Endpoint                    | Description                |
+|--------|-----------------------------|----------------------------|
+| GET    | /api/admin/users            | List all registered users  |
+| DELETE | /api/admin/users/{id}       | Delete a user by ID        |
+
+---
+
+> **Note:**  
+> - All `/api/admin/*` endpoints require authentication and admin privileges (`user_type = admin`).
+> - All `/api/*` endpoints (except guest/public) require a valid Bearer token.
+> - Example tokens are returned by `/api/login`.
+
+---
+>>>>>>> 0013a21 (all files first commit)
