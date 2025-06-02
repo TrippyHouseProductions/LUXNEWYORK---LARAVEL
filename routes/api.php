@@ -1,50 +1,4 @@
 <?php
-// // NOTE was there already
-// use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Route;
-
-// // NOTE added by me
-// use App\Http\Controllers\Api\ProductController;
-// use App\Http\Controllers\Api\CategoryController;
-// use App\Http\Controllers\Api\CartController;
-// use App\Http\Controllers\Api\WishlistController;
-// use App\Http\Controllers\Api\OrderController;
-// use App\Http\Controllers\Api\AuthController;
-
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
-
-// Route::post('/login', [AuthController::class, 'login']);
-
-// // Public routes
-// Route::get('products', [ProductController::class, 'index']);
-// Route::get('products/{id}', [ProductController::class, 'show']);
-// Route::get('categories', [CategoryController::class, 'index']);
-// Route::get('categories/{id}', [CategoryController::class, 'show']);
-
-// // Authenticated customer routes
-// Route::middleware('auth:sanctum')->group(function () {
-//     Route::get('cart', [CartController::class, 'index']);
-//     Route::post('cart', [CartController::class, 'store']);
-//     Route::delete('cart/{itemId}', [CartController::class, 'destroy']);
-//     Route::delete('cart', [CartController::class, 'clear']);
-    
-//     Route::get('wishlist', [WishlistController::class, 'index']);
-//     Route::post('wishlist', [WishlistController::class, 'store']);
-//     Route::delete('wishlist/{itemId}', [WishlistController::class, 'destroy']);
-
-//     Route::get('orders', [OrderController::class, 'index']);
-//     Route::post('orders', [OrderController::class, 'store']);
-
-//     Route::post('/logout', [AuthController::class, 'logout']);
-// });
-
-// // NOTE sanctum testing
-// Route::middleware('auth:sanctum')->get('/sanctum-test', function () {
-//     return ['ok' => true, 'user' => request()->user()];
-// });
-
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +14,11 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Post;
 
 
+// NOTE sanctum testing
+Route::middleware('auth:sanctum')->get('/sanctum-test', function () {
+    return ['ok' => true, 'user' => request()->user()];
+});
+
 // NOTE Guest API's
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
@@ -69,7 +28,8 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // NOTE this is for anyone
 Route::get('/posts', [PostController::class, 'index']);
-Route::get('/posts/{post}', [PostController::class, 'show']);
+Route::get('/posts/{id}', [PostController::class, 'show']);
+
 
 // NOTE Customer API's
 Route::middleware('auth:sanctum')->group(function () {
@@ -140,10 +100,10 @@ Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
     Route::delete('/admin/users/{id}', [UserController::class, 'destroy']);
 
     // NOTE admin functions to manage the blog
-    Route::get('/admin/posts', [PostController::class, 'adminIndex']);
+    Route::get('/posts', [PostController::class, 'index']);
     Route::post('/posts', [PostController::class, 'store']);
-    Route::put('/posts/{post}', [PostController::class, 'update']);
-    Route::delete('/posts/{post}', [PostController::class, 'destroy']);
+    Route::put('/posts/{id}', [PostController::class, 'update']);
+    Route::delete('/posts/{id}', [PostController::class, 'destroy']);
 });
 
 

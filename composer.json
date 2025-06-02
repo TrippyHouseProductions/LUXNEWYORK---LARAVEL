@@ -16,7 +16,7 @@
         "laravel/sanctum": "^4.1",
         "laravel/tinker": "^2.10.1",
         "livewire/livewire": "^3.6",
-        "mongodb/laravel-mongodb": "^5.4",
+        "mongodb/laravel-mongodb": "*",
         "mongodb/mongodb": "^2.1"
     },
     "require-dev": {

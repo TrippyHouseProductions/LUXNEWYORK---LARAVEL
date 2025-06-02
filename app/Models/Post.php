@@ -12,13 +12,18 @@ class Post extends Model
     protected $fillable = [
         'title',
         'content',
-        'author_id',
+        'author',
         'tags',
         'published_at',
     ];
 
-    public function author()
+    protected $casts = [
+        'tags' => 'array',
+        'published_at' => 'datetime',
+    ];
+
+    public function getKey()
     {
-        return $this->belongsTo(BlogUser::class, 'author_id', '_id');
+        return $this->getAttribute('_id');
     }
 }

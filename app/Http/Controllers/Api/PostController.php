@@ -2,80 +2,100 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use App\Http\Resources\PostResource;
-use MongoDB\Laravel\Eloquent\Model;
 
 class PostController extends Controller
 {
-    // List all posts
     // public function index()
     // {
-    //     return PostResource::collection(Post::all());
+    //     $posts = Post::all();
+    //     return response()->json([
+    //         'data' => PostResource::collection($posts)
+    //     ]);
     // }
-
     public function index()
     {
-        return response()->json(Post::all());
+        try {
+            $posts = Post::all();
+            return response()->json([
+                'success' => true,
+                'data' => PostResource::collection($posts)
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
-
-    // Store new post
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title'   => 'required|string',
-            'content' => 'required|string',
-            'tags'    => 'nullable|array',
-        ]);
-
-        $post = Post::create([
-            'title'        => $request->title,
-            'content'      => $request->content,
-            'tags'         => $request->tags ?? [],
-            'published_at' => now(),
-        ]);
-
-        return new PostResource($post);
-    }
-
-    // Show a single post
     public function show($id)
     {
-        $post = Post::findOrFail($id);
+        $post = Post::find($id);
+        if (!$post) {
+            return response()->json(['message' => 'Post not found'], 404);
+        }
+        return response()->json([
+            'data' => new PostResource($post)
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'title'   => 'required|string',
+            'content' => 'required|string',
+            'author'  => 'required|string',
+            'tags'    => 'nullable|string', // Accepts comma-separated tags
+        ]);
+
+        // Convert tags to array if given as comma-separated string
+        if (isset($data['tags']) && is_string($data['tags'])) {
+            $data['tags'] = array_filter(array_map('trim', explode(',', $data['tags'])));
+        }
+
+        $data['published_at'] = now();
+
+        $post = Post::create($data);
+
         return new PostResource($post);
     }
 
-    // Update a post
     public function update(Request $request, $id)
     {
-        $post = Post::findOrFail($id);
+        $post = Post::find($id);
+        if (!$post) {
+            return response()->json(['message' => 'Post not found'], 404);
+        }
 
-        $post->update($request->only(['title', 'content', 'tags']));
+        $data = $request->validate([
+            'title'   => 'sometimes|required|string',
+            'content' => 'sometimes|required|string',
+            'author'  => 'sometimes|required|string',
+            'tags'    => 'nullable|string',
+        ]);
+
+        if (isset($data['tags']) && is_string($data['tags'])) {
+            $data['tags'] = array_filter(array_map('trim', explode(',', $data['tags'])));
+        }
+
+        $post->update($data);
 
         return new PostResource($post);
     }
 
-    // Delete a post
     public function destroy($id)
     {
-        $post = Post::findOrFail($id);
+        $post = Post::find($id);
+        if (!$post) {
+            return response()->json(['message' => 'Post not found'], 404);
+        }
+
         $post->delete();
 
-        return response()->json(['message' => 'Post deleted']);
+        return response()->json(['message' => 'Post deleted'], 200);
     }
-
-    public function adminIndex(Request $request)
-    {
-        $perPage = $request->get('per_page', 10);
-
-        $posts = Post::orderBy('published_at', 'desc')
-                    ->paginate($perPage);
-
-        return PostResource::collection($posts);
-    }
-
-
 }

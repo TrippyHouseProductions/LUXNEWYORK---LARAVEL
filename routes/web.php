@@ -45,6 +45,7 @@ Route::middleware([
 
 });
 
+
 Route::middleware([
     'auth:sanctum', config('jetstream.auth_session'), 'verified', 'is_admin'
 ])->group(function () {
