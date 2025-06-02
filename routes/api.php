@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/sanctum-test', function () {
 // NOTE Guest API's
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
+Route::get('/new-arrivals', [ProductController::class, 'newArrivals']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{id}', [CategoryController::class, 'show']);
 Route::post('/login', [AuthController::class, 'login']);

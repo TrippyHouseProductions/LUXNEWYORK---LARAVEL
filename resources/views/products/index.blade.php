@@ -46,7 +46,7 @@
             </div>
 
             <!-- Product Grid with more spacing -->
-            <div id="product-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
+            <div id="product-list" class="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10"></div>
 
             <!-- Empty State with more space -->
             <div id="empty-state" class="hidden bg-white border border-gray-200 rounded-xl p-16 shadow-sm text-center my-16">
@@ -187,57 +187,50 @@ document.addEventListener('DOMContentLoaded', function() {
             
             html += `
                 <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full ${isOutOfStock ? 'opacity-75' : ''}">
-                    <!-- Image Section with New Badge and Out of Stock overlay -->
-                    <div class="relative aspect-w-1 aspect-h-1 bg-gray-50 overflow-hidden">
-                        <img src="${product.image}" 
-                            alt="${product.name}"
-                            class="w-full h-full object-cover hover:scale-105 transition duration-500 ${isOutOfStock ? 'grayscale' : ''}">
-                        
+                    <!-- Image Section -->
+                    <div class="relative aspect-w-1 aspect-h-1 bg-gray-50 overflow-hidden min-h-[180px]">
+                        <button class="absolute top-3 left-3 flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 shadow hover:bg-indigo-600 transition group z-10" style="outline:none; border:none;">
+                            <svg class="w-5 h-5 text-indigo-600 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                            </svg>
+                        </button>
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover hover:scale-105 transition duration-500 ${isOutOfStock ? 'grayscale' : ''}">
                         ${isNew ? `
-                        <div class="absolute top-4 right-4 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                        <div class="absolute top-3 right-3 bg-indigo-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">
                             NEW
                         </div>
                         ` : ''}
-                        
                         ${isOutOfStock ? `
                         <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                            <span class="bg-white text-red-600 font-bold px-4 py-2 rounded-lg">OUT OF STOCK</span>
+                            <span class="bg-white text-red-600 font-bold px-3 py-1 rounded-lg shadow text-xs">OUT OF STOCK</span>
                         </div>
                         ` : ''}
                     </div>
-                
                     <!-- Content Section -->
-                    <div class="p-8 flex flex-col flex-grow">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xl font-medium text-gray-900">${product.name}</h3>
-                            <div class="font-medium ${isOutOfStock ? 'text-gray-500' : 'text-indigo-600'} text-xl">$${product.price}</div>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-base font-semibold text-gray-900 line-clamp-1">${product.name}</h3>
+                            <div class="font-semibold ${isOutOfStock ? 'text-gray-400' : 'text-indigo-600'} text-sm ml-2">$${product.price}</div>
                         </div>
-                        <p class="text-gray-600 text-base mb-6 line-clamp-2 flex-grow">
+                        <p class="text-gray-500 text-xs mb-3 line-clamp-2 flex-grow">
                             ${product.description || 'Premium luxury eyewear with timeless design'}
                         </p>
-                        
                         <!-- Stock Status -->
-                        <div class="mb-4">
-                            <span class="px-2 py-1 rounded-full text-xs font-medium ${isOutOfStock ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}">
+                        <div class="mb-3">
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-medium ${isOutOfStock ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}">
                                 ${isOutOfStock ? 'Out of Stock' : `${product.stock} in stock`}
                             </span>
                         </div>
-                        
-                        <!-- Button Footer -->
-                        <div class="flex justify-between items-center mt-auto pt-4">
-                            <a href="/products/${product.id}" 
-                            class="text-indigo-600 hover:text-indigo-900 text-base font-semibold transition-colors ${isOutOfStock ? 'pointer-events-none text-gray-400' : ''}">
-                                ${isOutOfStock ? 'Unavailable' : 'View details'}
-                            </a>
-                            <button class="text-gray-400 hover:text-indigo-600 transition-colors ${isOutOfStock ? 'pointer-events-none opacity-50' : ''}">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                </svg>
-                            </button>
-                        </div>
+                        <!-- CTA Button -->
+                        <a href="/products/${product.id}" 
+                            class="w-full flex justify-center items-center bg-indigo-600 text-white px-4 py-1.5 rounded-lg shadow-md font-semibold text-sm transition
+                            ${isOutOfStock 
+                                ? 'opacity-60 pointer-events-none cursor-not-allowed text-gray-300 bg-gray-200 shadow-none' 
+                                : 'hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none'}">
+                            ${isOutOfStock ? 'Unavailable' : 'View details'}
+                        </a>
                     </div>
-                </div>
-            `;
+                </div>`;
         });
         productList.insertAdjacentHTML('beforeend', html);
 

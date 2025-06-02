@@ -2,13 +2,6 @@
 
 @section('content')
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <!-- Page Header -->
-        <div class="text-center mb-12">
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">My Wishlist</h1>
-            <div class="w-24 h-1 bg-indigo-600 mx-auto mb-6"></div>
-            <p class="text-gray-600 max-w-2xl mx-auto">Your favorite items saved for later</p>
-        </div>
-
         <!-- Loading State -->
         <div id="loading-state" class="text-center py-20">
             <i class="fas fa-spinner fa-spin text-gray-400 text-4xl mb-4"></i>

@@ -86,4 +86,14 @@ class ProductController extends Controller
         
         return response()->json(['count' => Product::count()]);
     }
+
+    public function newArrivals()
+    {
+        $products = Product::with('category')
+            ->where('created_at', '>=', now()->subDays(30))
+            ->orderByDesc('created_at')
+            ->get();
+
+        return ProductResource::collection($products);
+    }
 }
